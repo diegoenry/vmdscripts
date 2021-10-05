@@ -25,13 +25,16 @@ quit
 
 ## Fitting a trajectory
 ```tcl
-proc rmsd {{mol top} {sel1 "protein"} } {
+proc rmsd {{mol top} {sel "protein"} } {
 
   # use frame 0 for the reference
   set reference [atomselect $mol $sel frame 0]
 
   # the frame being compared
   set compare [atomselect $mol $sel]
+
+  # Select all atoms
+  set all [atomselect top all]
 
   # Set the numver of available frames
   set num_steps [molinfo $mol get numframes]
@@ -44,8 +47,8 @@ proc rmsd {{mol top} {sel1 "protein"} } {
     # compute the transformation
     set trans_mat [measure fit $compare $reference]
 
-    # do the alignment
-    #$compare move $trans_mat
+    # Move all atoms according to alignment
+    $all      frame $frame
     $all move $trans_mat
 
     # compute the RMSD
