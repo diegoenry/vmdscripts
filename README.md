@@ -25,7 +25,7 @@ quit
 
 ## Fitting a trajectory
 ```tcl
-proc rmsd {{mol top} {sel "protein"}} {
+proc rmsd {{mol top} {sel1 "protein"} } {
 
   # use frame 0 for the reference
   set reference [atomselect $mol $sel frame 0]
@@ -45,7 +45,8 @@ proc rmsd {{mol top} {sel "protein"}} {
     set trans_mat [measure fit $compare $reference]
 
     # do the alignment
-    $compare move $trans_mat
+    #$compare move $trans_mat
+    $all move $trans_mat
 
     # compute the RMSD
     set rmsd [measure rmsd $compare $reference]
